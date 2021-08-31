@@ -22,5 +22,5 @@ export const Content = styled.View({
 
 export const PDFViewer = styled.View({
   flex: 1,
-  backgroundColor: Theme.Colors.green,
+  backgroundColor: Theme.Colors.background,
 });

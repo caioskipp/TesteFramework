@@ -8,6 +8,7 @@ import React, {useEffect, useState} from 'react';
 import {NavigationBar, ViewBasic} from '../../components';
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import {useSelector} from 'react-redux';
+import {PermissionsAndroid, Platform} from 'react-native';
 import icons from '../../common/icons';
 
 export default function PDF(props) {
@@ -16,10 +17,38 @@ export default function PDF(props) {
 
   // Mark: Lifecycle functions
   useEffect(() => {
-    createPDF().then(() => console.debug('PDF Created'));
+    requestCameraPermission().then(result => {
+      if (result) {
+        createPDF().then(() => console.debug('PDF Created'));
+      }
+    });
   }, []);
 
   // Mark: General functions
+
+  const requestCameraPermission = async () => {
+    return Platform.select({
+      ios: async () => {
+        return true;
+      },
+      android: async () => {
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+            {
+              title: 'Atenção',
+              message: 'É necessário que você de permissão para gerar o PDF',
+              buttonNegative: 'Cancelar',
+              buttonPositive: 'Aceito',
+            },
+          );
+          return granted === PermissionsAndroid.RESULTS.GRANTED;
+        } catch (err) {
+          console.warn(err);
+        }
+      },
+    });
+  };
 
   function renderPrice(item) {
     let priceAux = item.price;

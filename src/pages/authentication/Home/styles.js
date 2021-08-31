@@ -15,6 +15,7 @@ export const Content = styled.View({
     },
     android: {
       paddingTop: 0,
+      paddingBottom: Theme.Sizes.twenty,
     },
   }),
   backgroundColor: Theme.Colors.primary,

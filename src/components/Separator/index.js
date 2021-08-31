@@ -24,5 +24,5 @@ Separator.defaultProps = {
 
 Separator.propTypes = {
   color: PropTypes.string,
-  marginBottom: PropTypes.string,
+  marginBottom: PropTypes.number,
 };
